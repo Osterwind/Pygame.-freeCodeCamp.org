@@ -1,0 +1,57 @@
+import pygame
+
+clok = pygame.time.Clock() # параметры не нужно передавать. т.к. коллиство фреймов сейчас большое окло 60 в сек, хочу это котролировать самстоятельно. 20 или 10 фреймов в сек будет достаточно
+pygame.init() #с этого момента разработка игры
+
+screen = pygame.display.set_mode((1024, 768)) #, flages=pygame.NOFRAME #новая переменная для размера экрана обращаюсь через точку обращаюсь к различным библиотекам (указываю путь, потом обращаюсь к методу mode - размеры для экрана, через кортеж, поэтому доп. скобки)
+pygame.display.set_caption("Микромир")
+icon = pygame.image.load("image/icon.png") #загружаю иконку, обращаюсь к методу load
+pygame.display.set_icon(icon) #загружаю иконку с помощью метода set_icon
+bg = pygame.image.load("image/bagg.png")
+bg = pygame.transform.scale(bg, (1024, 768)) # 1024, 768 это размер вашего приложения
+#spritesheet - чтобы не мучиться с фотошопом, создаю список циклов изображений. Анимация
+walk_left = [ pygame.image.load("image/persan/left/1.png"),
+             pygame.image.load("image/persan/left/2.png"),
+             pygame.image.load("image/persan/left/3.png"),
+             pygame.image.load("image/persan/left/4.png"),
+]
+
+walk_right = [ pygame.image.load("image/persan/right/1.png"),
+             pygame.image.load("image/persan/right/2.png"),
+             pygame.image.load("image/persan/right/3.png"),
+             pygame.image.load("image/persan/right/4.png"),
+]
+
+#делаю цикл не бесконечным, ввожу переменную
+running = True 
+
+bg_x = 0
+
+bg_sound = pygame.mixer.Sound("sound/AMV.mp3")
+person_count = 0
+bg_sound.play() #при старте сразу играет безконца
+#Пишу бесконечный цикл, программа не будет закрываться
+while running:
+       
+#здесь строчки кода для самой игры
+ screen.blit(bg, (bg_x,0))
+ screen.blit(bg, (bg_x + 1024,0))
+
+ screen.blit(walk_right[person_count], (10,200)) # элемент по индексу, кот. записан
+if person_count == 3:
+ person_count = 0
+else:
+  person_count =+ 1 #новое значение каждый раз, чтобы была амимация, а не одна и та же картинка
+
+bg_x -= 2
+if bg_x <= -1024:
+  bg_x = 0
+
+  pygame.display.update() #для обновления экрана (она должна быть перед всеми действиями, т.к. после завершения микакие действия не должны бфть выполнены)
+
+for event in pygame.event.get(): #для переменной новой, список из всех вероятных событий
+        if event.type == pygame.QUIT: #если событие.типа. = выход из игры
+            running = False
+            pygame.quit() #обращаемся к методу pygame.quit, корректное отключение
+clok.tick(10)
+     
