@@ -27,3 +27,6 @@ for event in pygame.get(): #для переменной новой, список
         if event.type == pygame.QUIT: #если событие.типа. = выход из игры
             running = False
             pygame.quit() #обращаемся к методу pygame.quit, корректное отключение
+        elif event.type == pygame.KEYDOWN: # реакция на клавишу 0, смена цвета (но это не работает)
+             if event.key == pygame.K_0:
+                screen.fill(125, 240, 155)
